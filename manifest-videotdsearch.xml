@@ -2,10 +2,10 @@
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="MailApp" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0">
   <Id>3d2ef208-058a-4c36-9b7e-fcb7872f1b2f</Id>
   <Version>1.0.0.0</Version>
-  <ProviderName>[Provider name]</ProviderName>
+  <ProviderName>Microsoft DX FR</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="VideoTDSearch"/>
-  <Description DefaultValue="[Outlook Add-in description]"/>
+  <DisplayName DefaultValue="tech.days videos"/>
+  <Description DefaultValue="Trouver des vidéos sur les tech.days"/>
   <HighResolutionIconUrl DefaultValue="https://localhost:8443/images/hi-res-icon.png"/>
   <Hosts>
     <Host Name="Mailbox"/>
