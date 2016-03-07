@@ -14,3 +14,46 @@
 #add-to-recipients {
     width: 205px;
 }
+
+
+#attribution {
+  margin-left: 10px;
+  width: 100px;
+}
+
+/*
+  Tweaks to Office UI Fabric 
+*/
+#query-form{
+
+ vertical-align: middle;    
+}
+
+.ms-SearchBox-field {
+  line-height: 1.5em;
+}
+
+
+
+.ms-ListItem.is-selectable:hover:before {
+  border: 0px;
+}
+
+.ms-ListItem.is-selected:before,
+.ms-ListItem.is-selected:hover:before {
+  content: '';
+}
+
+/*.ms-ListItem-image{
+    width: 90%;
+    height: 90%;
+    max-width: 180px;
+    align-content: center;
+    float: left;
+    margin-bottom: 10px;
+}*/
+
+.ms-ListItem-image {
+  width: auto;
+  height: 100px;
+}

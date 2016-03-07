@@ -4,6 +4,7 @@
   "dependencies": {
     "microsoft.office.js": "*",
     "jquery": "~1.9.1",
-    "office-ui-fabric": "*"
+    "office-ui-fabric": "*",
+    "waitForImages": "^2.1.0"
   }
 }

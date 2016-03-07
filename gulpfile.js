@@ -10,6 +10,8 @@ var $ = require('gulp-load-plugins')({ lazy: true });
 var del = require('del');
 var runSequence = require('run-sequence');
 var Xml2Js = require('xml2js');
+var routingRoutes = require('./routes');
+
 
 var config = {
   release: './dist'
@@ -34,7 +36,8 @@ gulp.task('serve-static', function () {
       port: '8443',
       host: 'localhost',
       directoryListing: true,
-      fallback: 'index.html'
+      fallback: 'index.html',
+      middleware : routingRoutes.getRoute
     }));
 });
 

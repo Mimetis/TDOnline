@@ -1,39 +1,185 @@
-(function(){
-  'use strict';
+(function () {
+    'use strict';
 
-  // The initialize function must be run each time a new page is loaded
-  Office.initialize = function(reason){
-    jQuery(document).ready(function(){
-      app.initialize();
+    var item;
+    var query;
+    var $searchInput;
+    var $listResults;
 
-      jQuery('#set-subject').click(setSubject);
-      jQuery('#get-subject').click(getSubject);
-      jQuery('#add-to-recipients').click(addToRecipients);
-    });
-  };
+    // The Office initialize function must be run each time a new page is loaded
+    Office.initialize = function (reason) {
+        item = Office.context.mailbox.item;
 
-  function setSubject(){
-    Office.cast.item.toItemCompose(Office.context.mailbox.item).subject.setAsync('Hello world!');
-  }
+        $(document).ready(function () {
+        
+            // enable searchbox
+            $('#query-SearchBox').SearchBox();
 
-  function getSubject(){
-    Office.cast.item.toItemCompose(Office.context.mailbox.item).subject.getAsync(function(result){
-      app.showNotification('The current subject is', result.value);
-    });
-  }
 
-  function addToRecipients(){
-    var item = Office.context.mailbox.item;
-    var addressToAdd = {
-      displayName: Office.context.mailbox.userProfile.displayName,
-      emailAddress: Office.context.mailbox.userProfile.emailAddress
+            $listResults = $('#list-results');
+            // 
+            //             $listResults.on('click', function (event) {
+            //                 console.log(event);
+            //                 console.log(event.currentTarget);
+            //             });
+
+            // get the input box
+            $searchInput = $('#query-SearchBox').find('.ms-SearchBox-field');
+
+            $('#query-form').submit(searchForGifs);
+            $('#loading-message').hide();
+
+            // Attach handlers to insert buttons.
+            // $('#results').on('click', '#insert-gif', insertGif);
+            // $('#results').on('click', '#insert-link', insertLink);
+
+            // Hover styling on results list.
+            $('#results').on('mouseenter', '#result', function (event) {
+                $(event.currentTarget).addClass('hovering');
+            });
+
+            $('#results').on('mouseleave', '#result', function (event) {
+                $(event.currentTarget).removeClass('hovering');
+            });
+        });
+
     };
+    /**
+     * @name searchForGifs
+     * @desc Gets the query from the form, searches for GIFs using the Giphy API,
+     *       and updates the UI with the results.
+     */
+    function searchForGifs(event) {
+        event.preventDefault();
 
-    if (item.itemType === Office.MailboxEnums.ItemType.Message) {
-      Office.cast.item.toMessageCompose(item).to.addAsync([addressToAdd]);
-    } else if (item.itemType === Office.MailboxEnums.ItemType.Appointment) {
-      Office.cast.item.toAppointmentCompose(item).requiredAttendees.addAsync([addressToAdd]);
+        // Get search box and the query value.
+        query = $searchInput.val();
+
+        // Block empty queries.
+        if (query.trim() === '') {
+            return;
+        }
+
+        // Get results list and clear it.
+        $listResults.empty();
+        
+
+        // Show loading message so user knows something is happening.
+        $('#loading-message').show();
+
+        // Make a request to Giphy API with query.
+        // https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&limit=10&q=
+        $.get('https://localhost:8443/api/videos/' + encodeURIComponent(query), function (response) {
+            // Handle case where query returns nothing.
+            if (response === undefined || response === null || response === "") {
+                // Hide loading message if there are no results.
+                $('#loading-message').hide();
+
+                $listResults.append('<p class="ms-font-l">No results for "' + query + '".</p>');
+                return;
+            }
+
+            var jsonResponse = JSON.parse(response);
+
+            if (jsonResponse.length === 0) {
+                // Hide loading message if there are no results.
+                $('#loading-message').hide();
+
+                $listResults.append('<p class="ms-font-l">No results for "' + query + '".</p>');
+                return;
+            }
+
+            // Build out the results list.
+            for (var i = 0; i < jsonResponse.length; i++) {
+                var video = jsonResponse[i];
+                var resultHtml = "";
+
+                var authorsName = "";
+                if (video.speakers && video.speakers.length > 0) {
+                    video.speakers.forEach(function (speaker) {
+                        authorsName += speaker.firstname + " " + speaker.lastname + ", ";
+                    }, this);
+                    authorsName = authorsName.substr(0, authorsName.length - 3);
+                }
+
+
+                resultHtml += "<li class='ms-ListItem is-selectable' id='" + video.id + "'>";
+                resultHtml += " <span class='ms-ListItem-primaryText'>" + video.title + "</span>";
+                if (authorsName !== "") {
+                    resultHtml += " <span class='ms-ListItem-secondaryText'>" + authorsName + "</span>";
+                }
+                resultHtml += " <span class='ms-ListItem-tertiaryText'>Today we discussed the importance of a, b, and c in regards to d.</span>";
+                resultHtml += " <span class='ms-ListItem-metaText'>2:42p</span>";
+                resultHtml += "<img class='ms-ListItem-image' src='" + video.image + "' />";
+                resultHtml += "</li>";
+
+
+                // Add results to containing div.
+                $listResults.append(resultHtml);
+
+                if ($.fn.ListItem) {
+                    var $listItem = $('#' + video.id);
+
+                    $listItem.on('click', video, function (event) {
+                        console.log(event.data);
+                        setItemBody(event.data);
+                    });
+                }
+
+            }
+
+        });
+
+        // // Clear the input and remove focus from search box.
+        // $queryInput.val('');
+        // $queryInput.blur();
     }
-  }
+
+
+    function setItemBody(video) {
+        item.body.getTypeAsync(function (result) {
+            if (result.status === Office.AsyncResultStatus.Failed) {
+                console.error(result.error.message);
+                return;
+            }
+
+            if (result.value === Office.MailboxEnums.BodyType.Html) {
+
+
+                var authorsName = "";
+                if (video.speakers && video.speakers.length > 0) {
+                    video.speakers.forEach(function (speaker) {
+                        authorsName += speaker.firstname + " " + speaker.lastname + ", ";
+                    }, this);
+                    authorsName = authorsName.substr(0, authorsName.length - 3);
+                }
+                
+                var resultHtml = "<div class='ms-ListItem is-selectable' id='" + video.id + "'>";
+                resultHtml += " <h1>" + video.title + "</h1>";
+                if (authorsName !== "") {
+                    resultHtml += " <h2'>" + authorsName + "</h2>";
+                }
+                resultHtml += " <div>" + video.description + "</div>";
+                resultHtml += "<img  src='" + video.image + "' />";
+                resultHtml += "</div>";
+
+
+
+                item.body.setSelectedDataAsync(resultHtml,
+                    {
+                        coercionType: Office.CoercionType.Html,
+                        asyncContext: null,
+                        function(asyncResult) {
+                            if (asyncResult.status === Office.AsyncResultStatus.Failed) {
+                                console.error(asyncResult.error.message);
+                            } else {
+                                // Successfully set data in item body.
+                            }
+                        }
+                    });
+            }
+
+        });
+    }
 
 })();
