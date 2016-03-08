@@ -68,7 +68,7 @@
 
         // Make a request to Giphy API with query.
         // https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&limit=10&q=
-        $.get(window.location.origin + '/api/videos/' + encodeURIComponent(query), function (response) {
+        $.get('https://techdaysvideos.azurewebsites.net/api/videos/' + encodeURIComponent(query), function (response) {
             // Handle case where query returns nothing.
             if (response === undefined || response === null || response === "") {
                 // Hide loading message if there are no results.
