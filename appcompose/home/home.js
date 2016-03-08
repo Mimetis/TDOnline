@@ -55,7 +55,7 @@
     
         // Make a request to Giphy API with query.
         // https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&limit=10&q=
-        $.get('https://localhost:8443/api/videos/' + encodeURIComponent(query), function (response) {
+        $.get('../../api/videos/' + encodeURIComponent(query), function (response) {
             // Handle case where query returns nothing.
             if (response === undefined || response === null || response === "") {
                 // Hide loading message if there are no results.
