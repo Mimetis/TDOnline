@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict';
 
     var item;
@@ -7,20 +7,20 @@
     var $listResults;
 
     // The Office initialize function must be run each time a new page is loaded
-    Office.initialize = function (reason) {
+    Office.initialize = function(reason) {
 
-        $(document).ready(function () {
-        
+        $(document).ready(function() {
+
             // enable searchbox
             $('#query-SearchBox').SearchBox();
 
-       
+
             $listResults = $('#list-results');
-// 
-//             $listResults.on('click', function (event) {
-//                 console.log(event);
-//                 console.log(event.currentTarget);
-//             });
+            // 
+            //             $listResults.on('click', function (event) {
+            //                 console.log(event);
+            //                 console.log(event.currentTarget);
+            //             });
 
             // get the input box
             $searchInput = $('#query-SearchBox').find('.ms-SearchBox-field');
@@ -33,11 +33,11 @@
             // $('#results').on('click', '#insert-link', insertLink);
 
             // Hover styling on results list.
-            $('#results').on('mouseenter', '#result', function (event) {
+            $('#results').on('mouseenter', '#result', function(event) {
                 $(event.currentTarget).addClass('hovering');
             });
 
-            $('#results').on('mouseleave', '#result', function (event) {
+            $('#results').on('mouseleave', '#result', function(event) {
                 $(event.currentTarget).removeClass('hovering');
             });
         });
@@ -61,14 +61,14 @@
 
         // Get results list and clear it.
         $listResults.empty();
-        
+
 
         // Show loading message so user knows something is happening.
         $('#loading-message').show();
 
         // Make a request to Giphy API with query.
         // https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&limit=10&q=
-        $.get('../../api/videos/' + encodeURIComponent(query), function (response) {
+        $.get('https://techdaysstream.azurewebsites.net/api/videos/' + encodeURIComponent(query), function(response) {
             // Handle case where query returns nothing.
             if (response === undefined || response === null || response === "") {
                 // Hide loading message if there are no results.
@@ -78,7 +78,7 @@
                 return;
             }
 
-            var jsonResponse = JSON.parse(response);
+            var jsonResponse = response;
 
             if (jsonResponse.length === 0) {
                 // Hide loading message if there are no results.
@@ -95,7 +95,7 @@
 
                 var authorsName = "";
                 if (video.speakers && video.speakers.length > 0) {
-                    video.speakers.forEach(function (speaker) {
+                    video.speakers.forEach(function(speaker) {
                         authorsName += speaker.firstname + " " + speaker.lastname + ", ";
                     }, this);
                     authorsName = authorsName.substr(0, authorsName.length - 3);
@@ -114,12 +114,12 @@
 
                 // Add results to containing div.
                 $listResults.append(resultHtml);
-                
-                
+
+
                 if ($.fn.ListItem) {
                     var $listItem = $('#' + video.id);
 
-                    $listItem.on('click', video, function (event) {
+                    $listItem.on('click', video, function(event) {
                         console.log(event.data);
                     });
                 }
