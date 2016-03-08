@@ -35,7 +35,7 @@
     <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
   </Rule>
   <DisableEntityHighlighting>false</DisableEntityHighlighting>
-  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+  <!--<VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
     <Hosts>
       <Host xsi:type="MailHost">
         <DesktopFormFactor>
@@ -122,5 +122,5 @@
         <bt:String id="menuDescription" DefaultValue="Expand this menu to set this subject or add yourself to the To line."/>
       </bt:LongStrings>
     </Resources>
-  </VersionOverrides>
+  </VersionOverrides>-->
 </OfficeApp>

@@ -13,6 +13,7 @@ var Router = (function () {
      */
     Router.getRoute = function (req, res, next) {
         var parsedUrl = url.parse(req.url);
+        console.log(parsedUrl);
         try {
             var route = Router.matchRoute(parsedUrl.pathname, req.method);
             // if no route available, go next middleware
@@ -25,6 +26,8 @@ var Router = (function () {
             // Add req as the last parameter of the function
             req.params = params;
             // Call the action
+            console.log('req available');
+            console.log(req);
             route.action(req, res, next);
         }
         catch (e) {

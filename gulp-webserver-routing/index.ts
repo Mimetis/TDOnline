@@ -33,6 +33,7 @@ class Router {
     public static getRoute(req, res, next) {
 
         var parsedUrl = url.parse(req.url);
+        console.log(parsedUrl);
 
         try {
             var route = Router.matchRoute(parsedUrl.pathname, req.method);
