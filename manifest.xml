@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="MailApp" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0">
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="MailApp" 
+           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0">
   <Id>3d2ef208-058a-4c36-9b7e-fcb7872f1b2f</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>Microsoft DX FR</ProviderName>
@@ -12,7 +13,7 @@
   </Hosts>
   <Requirements>
     <Sets>
-      <Set Name="MailBox" MinVersion="1.1"/>
+      <Set Name="MailBox" MinVersion="1.3"/>
     </Sets>
   </Requirements>
   <FormSettings>
@@ -50,9 +51,9 @@
                     <Description resid="msgReadPaneButtonDesc"/>
                   </Supertip>
                   <Icon>
-                    <bt:Image size="16" resid="icon-16"/>
-                    <bt:Image size="32" resid="icon-32"/>
-                    <bt:Image size="80" resid="icon-80"/>
+                    <bt:Image size="16" resid="icone-16"/>
+                    <bt:Image size="32" resid="icone-32"/>
+                    <bt:Image size="80" resid="icone-80"/>
                   </Icon>
                   <Action xsi:type="ShowTaskpane">
                     <SourceLocation resid="readPaneUrl"/>
@@ -61,84 +62,44 @@
               </Group>
             </OfficeTab>
           </ExtensionPoint>
-          <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+         
+           <ExtensionPoint xsi:type="MessageComposeCommandSurface">
             <OfficeTab id="TabDefault">
-              <Group id="msgComposeCmdGroup">
-                <Label resid="groupLabel"/>
-                <Control xsi:type="Button" id="msgComposeGetSubject">
-                  <Label resid="getSubjectLabel"/>
+              <Group id="translateGroup">
+                <Label resid="groupLabel" />
+               
+                <Control xsi:type="Button" id="translateButton">
+                  <Label resid="msgReadPaneButtonLabel" />
                   <Supertip>
-                    <Title resid="getSubjectTitle"/>
-                    <Description resid="getSubjectDesc"/>
+                    <Title resid="msgReadPaneButtonTitle" />
+                    <Description resid="msgReadPaneButtonDesc" />
                   </Supertip>
                   <Icon>
-                    <bt:Image size="16" resid="icon-16"/>
-                    <bt:Image size="32" resid="icon-32"/>
-                    <bt:Image size="80" resid="icon-80"/>
+                    <bt:Image size="16" resid="icone-16" />
+                    <bt:Image size="32" resid="icone-32" />
+                    <bt:Image size="80" resid="icone-80" />
                   </Icon>
-                  <Action xsi:type="ExecuteFunction">
-                    <FunctionName>getSubject</FunctionName>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="residManageTemplatesComposeUrl" />
                   </Action>
-                </Control>
-                <Control xsi:type="Menu" id="msgComposeMenu">
-                  <Label resid="menuLabel"/>
-                  <Supertip>
-                    <Title resid="menuTitle"/>
-                    <Description resid="menuDescription"/>
-                  </Supertip>
-                  <Icon>
-                    <bt:Image size="16" resid="icon-16"/>
-                    <bt:Image size="32" resid="icon-32"/>
-                    <bt:Image size="80" resid="icon-80"/>
-                  </Icon>
-                  <Items>
-                    <Item id="msgComposeSetSubject">
-                      <Label resid="setSubjectLabel"/>
-                      <Supertip>
-                        <Title resid="setSubjectTitle"/>
-                        <Description resid="setSubjectDesc"/>
-                      </Supertip>
-                      <Icon>
-                        <bt:Image size="16" resid="icon-16"/>
-                        <bt:Image size="32" resid="icon-32"/>
-                        <bt:Image size="80" resid="icon-80"/>
-                      </Icon>
-                      <Action xsi:type="ExecuteFunction">
-                        <FunctionName>setSubject</FunctionName>
-                      </Action>
-                    </Item>
-                    <Item id="msgComposeAddRecip">
-                      <Label resid="addRecipLabel"/>
-                      <Supertip>
-                        <Title resid="addRecipTitle"/>
-                        <Description resid="addRecipDesc"/>
-                      </Supertip>
-                      <Icon>
-                        <bt:Image size="16" resid="icon-16"/>
-                        <bt:Image size="32" resid="icon-32"/>
-                        <bt:Image size="80" resid="icon-80"/>
-                      </Icon>
-                      <Action xsi:type="ExecuteFunction">
-                        <FunctionName>addToRecipients</FunctionName>
-                      </Action>
-                    </Item>
-                  </Items>
                 </Control>
               </Group>
             </OfficeTab>
           </ExtensionPoint>
+         
         </DesktopFormFactor>
       </Host>
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="icon-16" DefaultValue="https://localhost:8443/images/icon-16.png"/>
-        <bt:Image id="icon-32" DefaultValue="https://localhost:8443/images/icon-32.png"/>
-        <bt:Image id="icon-80" DefaultValue="https://localhost:8443/images/icon-80.png"/>
+        <bt:Image id="icone-16" DefaultValue="https://localhost:8443/images/icone-16.png"/>
+        <bt:Image id="icone-32" DefaultValue="https://localhost:8443/images/icone-32.png"/>
+        <bt:Image id="icone-80" DefaultValue="https://localhost:8443/images/icone-80.png"/>
       </bt:Images>
       <bt:Urls>
         <bt:Url id="funcFile" DefaultValue="https://localhost:8443/FunctionFile/Functions.html"/>
         <bt:Url id="readPaneUrl" DefaultValue="https://localhost:8443/appread/home/home.html"/>
+        <bt:Url id="residManageTemplatesComposeUrl" DefaultValue="https://localhost:8443/appcompose/home/home.html"/>
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="groupLabel" DefaultValue="tech.days"/>

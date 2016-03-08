@@ -8,6 +8,7 @@
 
     // The Office initialize function must be run each time a new page is loaded
     Office.initialize = function (reason) {
+        console.log("reason : " + reason);
         item = Office.context.mailbox.item;
 
         $(document).ready(function () {
@@ -15,35 +16,20 @@
             // enable searchbox
             $('#query-SearchBox').SearchBox();
 
-
             $listResults = $('#list-results');
-            // 
-            //             $listResults.on('click', function (event) {
-            //                 console.log(event);
-            //                 console.log(event.currentTarget);
-            //             });
 
+         
             // get the input box
             $searchInput = $('#query-SearchBox').find('.ms-SearchBox-field');
 
             $('#query-form').submit(searchForGifs);
             $('#loading-message').hide();
 
-            // Attach handlers to insert buttons.
-            // $('#results').on('click', '#insert-gif', insertGif);
-            // $('#results').on('click', '#insert-link', insertLink);
-
-            // Hover styling on results list.
-            $('#results').on('mouseenter', '#result', function (event) {
-                $(event.currentTarget).addClass('hovering');
-            });
-
-            $('#results').on('mouseleave', '#result', function (event) {
-                $(event.currentTarget).removeClass('hovering');
-            });
         });
 
     };
+
+
     /**
      * @name searchForGifs
      * @desc Gets the query from the form, searches for GIFs using the Giphy API,
@@ -51,22 +37,22 @@
      */
     function searchForGifs(event) {
         event.preventDefault();
-
+    
         // Get search box and the query value.
         query = $searchInput.val();
-
+    
         // Block empty queries.
         if (query.trim() === '') {
             return;
         }
-
+    
         // Get results list and clear it.
         $listResults.empty();
-        
-
+            
+    
         // Show loading message so user knows something is happening.
         $('#loading-message').show();
-
+    
         // Make a request to Giphy API with query.
         // https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&limit=10&q=
         $.get('https://localhost:8443/api/videos/' + encodeURIComponent(query), function (response) {
@@ -88,7 +74,7 @@
                 $listResults.append('<p class="ms-font-l">No results for "' + query + '".</p>');
                 return;
             }
-
+    
             // Build out the results list.
             for (var i = 0; i < jsonResponse.length; i++) {
                 var video = jsonResponse[i];
@@ -112,8 +98,8 @@
                 resultHtml += " <span class='ms-ListItem-metaText'>2:42p</span>";
                 resultHtml += "<img class='ms-ListItem-image' src='" + video.image + "' />";
                 resultHtml += "</li>";
-
-
+    
+    
                 // Add results to containing div.
                 $listResults.append(resultHtml);
 
@@ -121,7 +107,7 @@
                     var $listItem = $('#' + video.id);
 
                     $listItem.on('click', video, function (event) {
-                        console.log(event.data);
+
                         setItemBody(event.data);
                     });
                 }
@@ -129,14 +115,16 @@
             }
 
         });
-
+    
         // // Clear the input and remove focus from search box.
         // $queryInput.val('');
         // $queryInput.blur();
-    }
-
+    };
 
     function setItemBody(video) {
+
+        console.log(event.data);
+
         item.body.getTypeAsync(function (result) {
             if (result.status === Office.AsyncResultStatus.Failed) {
                 console.error(result.error.message);
@@ -145,7 +133,6 @@
 
             if (result.value === Office.MailboxEnums.BodyType.Html) {
 
-
                 var authorsName = "";
                 if (video.speakers && video.speakers.length > 0) {
                     video.speakers.forEach(function (speaker) {
@@ -153,7 +140,7 @@
                     }, this);
                     authorsName = authorsName.substr(0, authorsName.length - 3);
                 }
-                
+
                 var resultHtml = "<div class='ms-ListItem is-selectable' id='" + video.id + "'>";
                 resultHtml += " <h1>" + video.title + "</h1>";
                 if (authorsName !== "") {
@@ -163,23 +150,21 @@
                 resultHtml += "<img  src='" + video.image + "' />";
                 resultHtml += "</div>";
 
+                var options = {
+                    coercionType: Office.CoercionType.Html,
+                    asyncContext: null
+                };
 
-
-                item.body.setSelectedDataAsync(resultHtml,
-                    {
-                        coercionType: Office.CoercionType.Html,
-                        asyncContext: null,
-                        function(asyncResult) {
-                            if (asyncResult.status === Office.AsyncResultStatus.Failed) {
-                                console.error(asyncResult.error.message);
-                            } else {
-                                // Successfully set data in item body.
-                            }
-                        }
-                    });
+                item.setSelectedDataAsync(resultHtml, options, function (asyncResult) {
+                    if (asyncResult.status === Office.AsyncResultStatus.Failed) {
+                        console.error(asyncResult.error.message);
+                    }
+                });
             }
 
         });
-    }
+    };
+
+
 
 })();
