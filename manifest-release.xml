@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="MailApp" 
-           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0">
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="MailApp" >
   <Id>3d2ef208-058a-4c36-9b7e-fcb7872f1b2f</Id>
   <Version>1.0.0.0</Version>
   <ProviderName>Microsoft DX FR</ProviderName>
@@ -13,7 +12,7 @@
   </Hosts>
   <Requirements>
     <Sets>
-      <Set Name="MailBox" MinVersion="1.3"/>
+      <Set Name="MailBox" MinVersion="1.1"/>
     </Sets>
   </Requirements>
   <FormSettings>
@@ -35,92 +34,4 @@
     <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
   </Rule>
   <DisableEntityHighlighting>false</DisableEntityHighlighting>
-  <!--<VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
-    <Hosts>
-      <Host xsi:type="MailHost">
-        <DesktopFormFactor>
-          <FunctionFile resid="funcFile"/>
-          <ExtensionPoint xsi:type="MessageReadCommandSurface">
-            <OfficeTab id="TabDefault">
-              <Group id="msgReadCmdGroup">
-                <Label resid="groupLabel"/>
-                <Control xsi:type="Button" id="msgReadPaneButton">
-                  <Label resid="msgReadPaneButtonLabel"/>
-                  <Supertip>
-                    <Title resid="msgReadPaneButtonTitle"/>
-                    <Description resid="msgReadPaneButtonDesc"/>
-                  </Supertip>
-                  <Icon>
-                    <bt:Image size="16" resid="icone-16"/>
-                    <bt:Image size="32" resid="icone-32"/>
-                    <bt:Image size="80" resid="icone-80"/>
-                  </Icon>
-                  <Action xsi:type="ShowTaskpane">
-                    <SourceLocation resid="readPaneUrl"/>
-                  </Action>
-                </Control>
-              </Group>
-            </OfficeTab>
-          </ExtensionPoint>
-         
-           <ExtensionPoint xsi:type="MessageComposeCommandSurface">
-            <OfficeTab id="TabDefault">
-              <Group id="translateGroup">
-                <Label resid="groupLabel" />
-               
-                <Control xsi:type="Button" id="translateButton">
-                  <Label resid="msgReadPaneButtonLabel" />
-                  <Supertip>
-                    <Title resid="msgReadPaneButtonTitle" />
-                    <Description resid="msgReadPaneButtonDesc" />
-                  </Supertip>
-                  <Icon>
-                    <bt:Image size="16" resid="icone-16" />
-                    <bt:Image size="32" resid="icone-32" />
-                    <bt:Image size="80" resid="icone-80" />
-                  </Icon>
-                  <Action xsi:type="ShowTaskpane">
-                    <SourceLocation resid="residManageTemplatesComposeUrl" />
-                  </Action>
-                </Control>
-              </Group>
-            </OfficeTab>
-          </ExtensionPoint>
-         
-        </DesktopFormFactor>
-      </Host>
-    </Hosts>
-    <Resources>
-      <bt:Images>
-        <bt:Image id="icone-16" DefaultValue="https://techdaysvideos.azurewebsites.net/images/icone-16.png"/>
-        <bt:Image id="icone-32" DefaultValue="https://techdaysvideos.azurewebsites.net/images/icone-32.png"/>
-        <bt:Image id="icone-80" DefaultValue="https://techdaysvideos.azurewebsites.net/images/icone-80.png"/>
-      </bt:Images>
-      <bt:Urls>
-        <bt:Url id="funcFile" DefaultValue="https://techdaysvideos.azurewebsites.net/FunctionFile/Functions.html"/>
-        <bt:Url id="readPaneUrl" DefaultValue="https://techdaysvideos.azurewebsites.net/appread/home/home.html"/>
-        <bt:Url id="residManageTemplatesComposeUrl" DefaultValue="https://techdaysvideos.azurewebsites.net/appcompose/home/home.html"/>
-      </bt:Urls>
-      <bt:ShortStrings>
-        <bt:String id="groupLabel" DefaultValue="tech.days"/>
-        <bt:String id="msgReadPaneButtonLabel" DefaultValue="t.d videos search"/>
-        <bt:String id="msgReadPaneButtonTitle" DefaultValue="t.d videos search"/>
-        <bt:String id="setSubjectLabel" DefaultValue="Set subject"/>
-        <bt:String id="setSubjectTitle" DefaultValue="Set subject"/>
-        <bt:String id="getSubjectLabel" DefaultValue="Get subject"/>
-        <bt:String id="getSubjectTitle" DefaultValue="Get subject"/>
-        <bt:String id="addRecipLabel" DefaultValue="Add recipient"/>
-        <bt:String id="addRecipTitle" DefaultValue="Add recipient"/>
-        <bt:String id="menuLabel" DefaultValue="Modify message"/>
-        <bt:String id="menuTitle" DefaultValue="Modify message"/>
-      </bt:ShortStrings>
-      <bt:LongStrings>
-        <bt:String id="msgReadPaneButtonDesc" DefaultValue="Permet de faire une recherche de vidéos à propos des tech.days"/>
-        <bt:String id="setSubjectDesc" DefaultValue="Sets the subject to 'Hello World!'"/>
-        <bt:String id="getSubjectDesc" DefaultValue="Gets the current subject and displays it in the info bar"/>
-        <bt:String id="addRecipDesc" DefaultValue="Add yourself to the recipient list (the To line for messages, the Required attendees line for appointments)"/>
-        <bt:String id="menuDescription" DefaultValue="Expand this menu to set this subject or add yourself to the To line."/>
-      </bt:LongStrings>
-    </Resources>
-  </VersionOverrides>-->
 </OfficeApp>
