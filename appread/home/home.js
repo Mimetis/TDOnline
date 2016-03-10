@@ -88,7 +88,8 @@
                 var $listItem = $('#' + video.id);
 
                 $listItem.on('click', video, function(event) {
-                    console.log(event.data);
+                    window.open(event.data.url);
+
                 });
 
             }
