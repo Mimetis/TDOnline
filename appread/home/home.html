@@ -5,39 +5,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
-    <!--<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js"></script>-->
-    <script src="../../bower_components/jquery/jquery.js" <script src="../../bower_components/waitForImages/dist/jquery.waitforimages.min.js"></script>
-    <script src="../../bower_components/office-ui-fabric/dist/js/jquery.fabric.js"></script>
-
 
     <link href="../../bower_components/microsoft.office.js/content/OfficeThemes.css" rel="stylesheet" type="text/css" />
     <link href="../../bower_components/office-ui-fabric/dist/css/fabric.css" rel="stylesheet">
     <link href="../../bower_components/office-ui-fabric/dist/css/fabric.components.css" rel="stylesheet">
-
-    <!--<link href="../../Content/Office.css" rel="stylesheet" type="text/css" />-->
-
-    <script src="//appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
-
-    <!-- To enable offline debugging using a local reference to Office.js, use:                        -->
-    <!-- <script src="../../bower_components/jquery/jquery.min.js"></script>  -->
-    <!-- <script src="../../bower_components/microsoft.office.js/scripts/Office/1/office.js"></script>  -->
-    <!-- <script src="../../content/fabric.min.css"></script>  -->
-    <!-- <script src="../../content/fabric.components.min.css"></script>  -->
-    <!-- <script src="../../scripts/jquery.fabric.min.js"></script>  -->
-    <script src="../../scripts/MicrosoftAjax.js"></script>
-
-
     <link href="Home.css" rel="stylesheet" type="text/css" />
-    <script src="Home.js"></script>
 
-    <script src="https://localhost:1337/vorlon.js"></script>
+    <!--<script src="../../scripts/MicrosoftAjax.js"></script>-->
+
+
+    <!--<script src="https://localhost:1337/vorlon.js"></script>-->
 
 </head>
 
 <body>
 
-    <div class="ms-Grid">
-        <div class="ms-Grid-row">
+    <div class="ms-Grid" >
+        <div class="ms-Grid-row" id="div-SearchBox">
             <div class="ms-Grid-col ms-u-sm12 ms-u-md4 ms-u-lg2"><img id="attribution" src="../../images/logo-200.png" /></div>
             <div class="ms-Grid-col ms-u-sm12 ms-u-md8 ms-u-lg10">
                 <form id="query-form">
@@ -58,6 +42,14 @@
         </div>
     </div>
     <p id="loading-message" class="ms-font-l padding">Recherche en cours ...</p>
+    <p id="no-video-message" class="ms-font-l padding">Pas de vidéos disponibles pour ce critère</p>
+
+    <script src="../../bower_components/jquery/jquery.js"></script>
+    <script src="../../bower_components/office-ui-fabric/dist/js/jquery.fabric.js"></script>
+    <script src="//appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <script src="../../scripts/techdaysapi.js" type="text/javascript"></script>
+    <script src="Home.js"></script>
+
 
 </body>
 

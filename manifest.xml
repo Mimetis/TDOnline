@@ -30,10 +30,29 @@
     </Form>
   </FormSettings>
   <Permissions>ReadWriteItem</Permissions>
-  <Rule xsi:type="RuleCollection" Mode="Or">
-    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read"/>
-    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
+  
+  <Rule xsi:type="RuleCollection" Mode="Or"> 
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit" /> 
+    <Rule xsi:type="RuleCollection" Mode="And">
+        <Rule xsi:type="ItemHasRegularExpressionMatch" 
+            RegExName="addressMatches" 
+            RegExValue="#(\w*)" 
+            PropertyName="BodyAsPlaintext"
+            IgnoreCase="true"
+        />        
+    </Rule> 
   </Rule>
+
+  <!--<Rule xsi:type="RuleCollection" Mode="Or">
+   <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit" />
+
+   <Rule xsi:type="RuleCollection" Mode="And">
+        <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read"/>
+        <Rule xsi:type="ItemHasRegularExpressionMatch" RegExName="techdaysWords" RegExValue="(?<=\s|^)#(\w*[A-Za-z_]+\w*)" PropertyName="body" IgnoreCase="true" />
+   </Rule>
+
+  </Rule>-->
+ 
   <DisableEntityHighlighting>false</DisableEntityHighlighting>
   <!--<VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
     <Hosts>

@@ -2,168 +2,98 @@
     'use strict';
 
     var item;
-    var query;
+    var $query;
     var $searchInput;
     var $listResults;
+    var apis = new tdapis();
+
+
+
+    $(document).ready(function() {
+
+        // enable searchbox
+        $('#query-SearchBox').SearchBox();
+
+        $listResults = $('#list-results');
+
+        $searchInput = $('#query-SearchBox').find('.ms-SearchBox-field');
+
+        $('#query-form').submit(function(event) {
+            event.preventDefault();
+
+            // Get search box and the query value.
+            $query = $searchInput.val();
+
+            // Block empty queries.
+            if ($query.trim() === '') {
+                return;
+            }
+
+            searchForVideos($query);
+
+        });
+        $('#loading-message').hide();
+        $('#no-video-message').hide();
+
+
+
+
+    });
+
 
     // The Office initialize function must be run each time a new page is loaded
     Office.initialize = function(reason) {
 
         $(document).ready(function() {
 
-            // enable searchbox
-            $('#query-SearchBox').SearchBox();
+            var videos = Office.context.mailbox.item.getRegExMatches().addressMatches;
 
+            if (videos !== undefined && videos.length > 0) {
+                $('#div-SearchBox').hide();
 
-            $listResults = $('#list-results');
-            // 
-            //             $listResults.on('click', function (event) {
-            //                 console.log(event);
-            //                 console.log(event.currentTarget);
-            //             });
-
-            // get the input box
-            $searchInput = $('#query-SearchBox').find('.ms-SearchBox-field');
-
-            $('#query-form').submit(searchForGifs);
-            $('#loading-message').hide();
-
-            // Attach handlers to insert buttons.
-            // $('#results').on('click', '#insert-gif', insertGif);
-            // $('#results').on('click', '#insert-link', insertLink);
-
-            // Hover styling on results list.
-            $('#results').on('mouseenter', '#result', function(event) {
-                $(event.currentTarget).addClass('hovering');
-            });
-
-            $('#results').on('mouseleave', '#result', function(event) {
-                $(event.currentTarget).removeClass('hovering');
-            });
+                var searchWord = videos[0].substr(1, videos[0].length - 1);
+                searchForVideos(searchWord);
+            }
         });
-
     };
-    /**
-     * @name searchForGifs
-     * @desc Gets the query from the form, searches for GIFs using the Giphy API,
-     *       and updates the UI with the results.
-     */
-    function searchForGifs(event) {
-        event.preventDefault();
 
-        // Get search box and the query value.
-        query = $searchInput.val();
 
-        // Block empty queries.
-        if (query.trim() === '') {
-            return;
-        }
+    function searchForVideos(keyword) {
 
+        console.log('Seaching for ' + keyword);
         // Get results list and clear it.
         $listResults.empty();
 
-
         // Show loading message so user knows something is happening.
         $('#loading-message').show();
+        $('#no-video-message').hide();
 
-        // Make a request to Giphy API with query.
-        // https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&limit=10&q=
-        $.get('https://techdaysstream.azurewebsites.net/api/videos/' + encodeURIComponent(query), function(response) {
-            // Handle case where query returns nothing.
-            if (response === undefined || response === null || response === "") {
-                // Hide loading message if there are no results.
-                $('#loading-message').hide();
+        apis.getvideos(keyword).done(function(data) {
+            $('#loading-message').hide();
 
-                $listResults.append('<p class="ms-font-l">No results for "' + query + '".</p>');
-                return;
-            }
-
-            var jsonResponse = response;
-
-            if (jsonResponse.length === 0) {
-                // Hide loading message if there are no results.
-                $('#loading-message').hide();
-
-                $listResults.append('<p class="ms-font-l">No results for "' + query + '".</p>');
+            if (data === undefined || data.length < 1) {
+                $('#no-video-message').show();
                 return;
             }
 
             // Build out the results list.
-            for (var i = 0; i < jsonResponse.length; i++) {
-                var video = jsonResponse[i];
-                var resultHtml = "";
+            for (var i = 0; i < data.length; i++) {
+                var video = data[i];
 
-                var authorsName = "";
-                if (video.speakers && video.speakers.length > 0) {
-                    video.speakers.forEach(function(speaker) {
-                        authorsName += speaker.firstname + " " + speaker.lastname + ", ";
-                    }, this);
-                    authorsName = authorsName.substr(0, authorsName.length - 3);
-                }
-
-
-                resultHtml += "<li class='ms-ListItem is-selectable' id='" + video.id + "'>";
-                resultHtml += " <span class='ms-ListItem-primaryText'>" + video.title + "</span>";
-                if (authorsName !== "") {
-                    resultHtml += " <span class='ms-ListItem-secondaryText'>" + authorsName + "</span>";
-                }
-                resultHtml += " <span class='ms-ListItem-tertiaryText'>Today we discussed the importance of a, b, and c in regards to d.</span>";
-                resultHtml += " <span class='ms-ListItem-metaText'>2:42p</span>";
-                resultHtml += "<img class='ms-ListItem-image' src='" + video.image + "' />";
-                resultHtml += "</li>";
+                var resultHtml = apis.formatVideo(video);
 
                 // Add results to containing div.
                 $listResults.append(resultHtml);
 
+                var $listItem = $('#' + video.id);
 
-                if ($.fn.ListItem) {
-                    var $listItem = $('#' + video.id);
-
-                    $listItem.on('click', video, function(event) {
-                        console.log(event.data);
-                    });
-                }
+                $listItem.on('click', video, function(event) {
+                    console.log(event.data);
+                });
 
             }
-
         });
 
-        // // Clear the input and remove focus from search box.
-        // $queryInput.val('');
-        // $queryInput.blur();
     }
-
-    /**
-     * @name insertGif
-     * @desc Inserts the GIF (in image format) into the body of the email being
-     *       composed.
-     */
-    function insertGif(event) {
-        event.preventDefault();
-        var src = event.currentTarget.parentElement.parentElement.children[0].src;
-        setItemBody(src, 'gif');
-    }
-
-    /**
-     * @name isnertLink
-     * @desc Inserts the GIf (in hyperlink format) into the body of the email being
-     *       composed.
-     */
-    function insertLink(event) {
-        event.preventDefault();
-
-        setItemBody(event.currentTarget.parentElement.parentElement.children[0].src, 'link');
-    }
-
-    /**
-     * @name setItemBody
-     * @desc Inserts a GIF into the body of the email being composed.
-     * @param url The URL of the GIF.
-     * @param type The type of insertion. Can be either 'gif' or 'link'.
-     *
-     * This function is mostly copied from "Insert data in the body when composing
-     * an appointment or message in Outlook" (https://msdn.microsoft.com/library/office/dn574748.aspx).
-     */
-
 
 })();
